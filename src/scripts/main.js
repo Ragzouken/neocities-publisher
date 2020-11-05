@@ -4,43 +4,50 @@ async function upload(username, password, destination, blob) {
     headers.append("Authorization", "Basic " + btoa(username + ":" + password));
 
     const body = new FormData();
-    body.append(destination, blob);
+    body.append("game", blob);
+    body.append("path", destination);
 
-    return fetch("https://neocities.org/api/upload", {
+    return fetch("https://neocities-cors.glitch.me/api/upload", {
         method: "POST",
         headers,
         body,
-        mode: "no-cors",
-        redirect: "follow",
+        mode: "cors",
     });
 }
 
 async function start() {
+    console.log("START")
     const usernameInput = /** @type {HTMLInputElement} */ (document.getElementById("username"));
     const passwordInput = /** @type {HTMLInputElement} */ (document.getElementById("password"));
     const destinationInput = /** @type {HTMLInputElement} */ (document.getElementById("destination"));
-    const uploadButton = document.getElementById("upload");
+    const uploadButton = /** @type {HTMLInputElement} */ (document.getElementById("upload"));
+
+    const form = document.querySelector("form");
 
     let data = undefined;
+
+    uploadButton.addEventListener("click", async (event) => {
+        uploadButton.disabled = true;
+        try {
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            const destination = destinationInput.value;
+
+            await upload(username, password, destination, data).then((response) => response.text());
+
+            window.opener.postMessage({ url: `https://${username}.neocities.org/${destination}` }, "*");
+            form.submit();
+        } catch (error) {
+            window.opener.postMessage({ error }, "*");
+        }
+    });
 
     window.addEventListener("message", (event) => {
         const { name, html } = event.data;
         const filename = name.replace(/[^a-z0-9]/gi, '_');
 
-        const blob = new Blob([html], { type: "text/html" });
-        data = blob;
-        //console.log(Math.ceil(blob.size / 1024) + "KiB");
-
+        data = new Blob([html], { type: "text/html" });
         destinationInput.value = `flicksy/${filename}.html`;
     });   
-    if (window.opener) window.opener.postMessage("ready", "*");
-
-    uploadButton.addEventListener("click", async () => {
-        const response = await upload(
-            usernameInput.value, 
-            passwordInput.value, 
-            destinationInput.value,
-            data,
-        );
-    });
+    window.opener.postMessage("ready", "*");
 }

@@ -11,16 +11,16 @@ html
             include styles/main-style.css
     body(onload="start()")
         #column
-            .section
+            form.section
                 h2 neocities publisher
                 h3 username
                 .button-row
-                    input(type="text" id="username")
+                    input#username(type="text")
                 h3 password
                 .button-row
-                    input(type="password" id="password")
+                    input#password(type="password")
                 h3 publish
                 .button-row
-                    input(type="text" id="destination")
-                    button(id="upload") upload
+                    input#destination(type="text")
+                    button#upload(type="button") upload
 
