@@ -1,2 +1,2 @@
 call build
-neocities upload -d rem target-folder .\dist\index.html
+neocities upload -d neocities-publisher .\dist\index.html

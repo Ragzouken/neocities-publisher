@@ -1,12 +1,26 @@
 doctype html
 html
     head
-        title low tech template
+        title neocities publisher
         meta(charset="utf-8")
-        // styles
-        style#base-style
-            include styles/base-style.css
-        // scripts
         script
             include scripts/main.js
+        style#base-style
+            include styles/base-style.css
+        style#main-style
+            include styles/main-style.css
     body(onload="start()")
+        #column
+            .section
+                h2 neocities publisher
+                h3 username
+                .button-row
+                    input(type="text" id="username")
+                h3 password
+                .button-row
+                    input(type="password" id="password")
+                h3 publish
+                .button-row
+                    input(type="text" id="destination")
+                    button(id="upload") upload
+

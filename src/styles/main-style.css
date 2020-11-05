@@ -1,0 +1,97 @@
+:root {
+    --background-color-a: #792368;
+    --background-color-b: #367b6b;
+    --emphasis-color-a: #ffd800;
+    --emphasis-color-b: #cef0df;
+    --text-color: #ffffff;
+
+    font-family: sans-serif;
+}
+
+html {
+    width: 100vw; min-height: 100vh;
+    margin: 0; padding: 0;
+    background: black;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: auto;
+}
+
+#column {
+    width: 100%;
+    max-width: 35em;
+    min-height: 100vh;
+
+    background: var(--background-color-a);
+
+    display: flex;
+    flex-direction: column;
+    padding: 1em; gap: 1em;
+}
+
+button {
+    padding: .5em .75em;
+    border: 0; border-radius: .5em;
+    
+    font-size: .8em;
+    font-weight: bold;
+    background: var(--emphasis-color-a);
+}
+
+button:active {
+    filter: invert();
+}
+
+input[type="text"], input[type="password"], textarea {
+    flex: 1; flex-basis: 100%; min-width: 0;
+    padding: .5em .75em;
+    border: 0; border-radius: .5em;
+    color: white;
+    background: black;
+}
+
+.button-row {
+    display: flex; flex-wrap: nowrap;
+    justify-items: stretch;
+    align-items: center;
+    padding: 0; gap: .5em;
+}
+
+.button-row > * {
+    flex: 1;
+    white-space: nowrap;
+}
+
+.section {
+    padding: 1em;
+    border-radius: .5em;
+
+    color: white;
+    background: var(--background-color-b);
+}
+
+
+h2:first-child { margin-top: 0; }
+
+h1, h2, h3 {
+    margin-top: .7em;
+    margin-bottom: .4em;
+    color: var(--emphasis-color-a);
+}
+
+em {
+    font-weight: bold;
+    color: var(--emphasis-color-a);
+}
+
+a {
+    color: var(--emphasis-color-a);
+}
+
+*:focus {
+    outline: none;
+}
