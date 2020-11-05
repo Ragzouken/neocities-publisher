@@ -47,7 +47,7 @@ async function start() {
         const filename = name.replace(/[^a-z0-9]/gi, '_');
 
         data = new Blob([html], { type: "text/html" });
-        destinationInput.value = `flicksy/${filename}.html`;
+        destinationInput.value = `${filename}.html`;
     });   
     window.opener.postMessage("ready", "*");
 }
