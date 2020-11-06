@@ -26,19 +26,25 @@ async function start() {
     let data = undefined;
 
     uploadButton.addEventListener("click", async (event) => {
-        uploadButton.disabled = true;
         try {
+            uploadButton.disabled = true;
             const username = usernameInput.value;
             const password = passwordInput.value;
             const destination = destinationInput.value;
 
-            await upload(username, password, destination, data)
-                .then((response) => response.text())
-                .then(console.log);
+            // get site info and upload file
+            const querying = fetch("https://neocities-cors.glitch.me/api/info?sitename=" + username).then((response) => response.json());
+            const uploading = upload(username, password, destination, data).then((response) => response.text())
+            const [info, result] = await Promise.all([querying, uploading]);
 
-            window.opener.postMessage({ url: `https://${username}.neocities.org/${destination}` }, origin);
+            // tell the caller the final upload url
+            const url = `https://${info.info.domain}/${destination}`;
+            window.opener.postMessage({ url }, origin);
+            
+            // submit the form so the browser offers to remember the password
             form.submit();
         } catch (error) {
+            // the the caller an error occurred
             window.opener.postMessage({ error }, origin);
         }
     });
