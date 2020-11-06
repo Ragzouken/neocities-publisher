@@ -15,7 +15,6 @@ async function upload(username, password, destination, blob) {
 }
 
 async function start() {
-    console.log("START")
     const usernameInput = /** @type {HTMLInputElement} */ (document.getElementById("username"));
     const passwordInput = /** @type {HTMLInputElement} */ (document.getElementById("password"));
     const destinationInput = /** @type {HTMLInputElement} */ (document.getElementById("destination"));
@@ -23,6 +22,7 @@ async function start() {
 
     const form = document.querySelector("form");
 
+    let origin = undefined;
     let data = undefined;
 
     uploadButton.addEventListener("click", async (event) => {
@@ -32,12 +32,12 @@ async function start() {
             const password = passwordInput.value;
             const destination = destinationInput.value;
 
-            await upload(username, password, destination, data).then((response) => response.text());
+            console.log(await upload(username, password, destination, data).then((response) => response.text()));
 
-            window.opener.postMessage({ url: `https://${username}.neocities.org/${destination}` }, "*");
+            window.opener.postMessage({ url: `https://${username}.neocities.org/${destination}` }, origin);
             form.submit();
         } catch (error) {
-            window.opener.postMessage({ error }, "*");
+            window.opener.postMessage({ error }, origin);
         }
     });
 
@@ -45,6 +45,7 @@ async function start() {
         const { name, html } = event.data;
         const filename = name.replace(/[^a-z0-9]/gi, '_');
 
+        origin = event.origin;
         data = new Blob([html], { type: "text/html" });
         destinationInput.value = `${filename}.html`;
     });   
