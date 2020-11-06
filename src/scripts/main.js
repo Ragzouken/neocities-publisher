@@ -32,7 +32,9 @@ async function start() {
             const password = passwordInput.value;
             const destination = destinationInput.value;
 
-            console.log(await upload(username, password, destination, data).then((response) => response.text()));
+            await upload(username, password, destination, data)
+                .then((response) => response.text())
+                .then(console.log);
 
             window.opener.postMessage({ url: `https://${username}.neocities.org/${destination}` }, origin);
             form.submit();
