@@ -4,8 +4,7 @@ async function upload(username, password, destination, blob) {
     headers.append("Authorization", "Basic " + btoa(username + ":" + password));
 
     const body = new FormData();
-    body.append("game", blob);
-    body.append("path", destination);
+    body.append(destination, blob);
 
     return fetch("https://neocities-cors.glitch.me/api/upload", {
         method: "POST",
